@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body{
+            font-family:Arial;
+            margin:20px;
+            background:#f4f4f4;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+        }
+
+        th,td{
+            border:1px solid #ddd;
+            padding:10px;
+            text-align:center;
+        }
+
+        th{
+            background:#007bff;
+            color:white;
+        }
+
+        select{
+            padding:5px;
+        }
+
+        button{
+            background:red;
+            color:white;
+            border:none;
+            padding:5px 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Admin Dashboard</h2>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Complaint</th>
+<th>Status</th>
+<th>Delete</th>
+</tr>
+</thead>
+
+<tbody id="tableData"></tbody>
+
+</table>
+
+<script>
+
+let complaints=JSON.parse(localStorage.getItem("complaints"))||[];
+
+function loadData(){
+
+let rows="";
+
+complaints.forEach((item,index)=>{
+
+rows+=`
+<tr>
+
+<td>${item.id}</td>
+
+<td>${item.name}</td>
+
+<td>${item.complaint}</td>
+
+<td>
+
+<select onchange="changeStatus(${index},this.value)">
+
+<option ${item.status=="Pending"?"selected":""}>Pending</option>
+
+<option ${item.status=="In Progress"?"selected":""}>In Progress</option>
+
+<option ${item.status=="Resolved"?"selected":""}>Resolved</option>
+
+</select>
+
+</td>
+
+<td>
+
+<button onclick="deleteComplaint(${index})">Delete</button>
+
+</td>
+
+</tr>
+`;
+
+});
+
+document.getElementById("tableData").innerHTML=rows;
+
+}
+
+function changeStatus(index,status){
+
+complaints[index].status=status;
+
+localStorage.setItem("complaints",JSON.stringify(complaints));
+
+loadData();
+
+}
+
+function deleteComplaint(index){
+
+complaints.splice(index,1);
+
+localStorage.setItem("complaints",JSON.stringify(complaints));
+
+loadData();
+
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>

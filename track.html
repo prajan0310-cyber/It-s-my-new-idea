@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Track Complaint</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+
+text-align:center;
+
+margin-top:50px;
+
+}
+
+input{
+
+padding:10px;
+
+width:250px;
+
+}
+
+button{
+
+padding:10px 20px;
+
+background:green;
+
+color:white;
+
+border:none;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Track Complaint</h2>
+
+<input type="number" id="id" placeholder="Enter Complaint ID">
+
+<br><br>
+
+<button onclick="track()">Track</button>
+
+<h3 id="result"></h3>
+
+<script>
+
+function track(){
+
+let id=document.getElementById("id").value;
+
+let complaints=JSON.parse(localStorage.getItem("complaints"))||[];
+
+let found=complaints.find(c=>c.id==id);
+
+if(found){
+
+document.getElementById("result").innerHTML="Status : "+found.status;
+
+}else{
+
+document.getElementById("result").innerHTML="Complaint Not Found";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
